@@ -22,7 +22,7 @@ resource "aws_s3_bucket_website_configuration" "main_bucket_web_config" {
   }
 }
 resource "aws_s3_bucket" "main" {
-  bucket = "my-bucket"
+  bucket = "cloudess-bucket"
   tags = {
     Name = "My Bucket"
     Environment = "Development"
