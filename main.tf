@@ -15,6 +15,7 @@ resource "aws_s3_bucket_website_configuration" "main_bucket_web_config" {
 }
 resource "aws_s3_bucket" "main" {
   bucket = "cloudess-bucket"
+  policy = data.aws_iam_policy_document.access_bucket_object.json
   tags = {
     Name = "My Bucket"
     Environment = "Development"
@@ -24,7 +25,7 @@ resource "aws_s3_bucket" "main" {
 resource "aws_s3_bucket_acl" "my_main_bucket_acl" {
   bucket = aws_s3_bucket.main.id
   acl    = "public-read"
-   policy = data.aws_iam_policy_document.access_bucket_object.json
+  
 }
 resource "aws_s3_object" "object" {
   bucket = aws_s3_bucket.main.id
