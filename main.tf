@@ -1,5 +1,5 @@
 provider "aws" {
-  
+  region = "us-east-1"
 }
 resource "aws_s3_bucket_website_configuration" "main_bucket_web_config" {
   bucket = aws_s3_bucket.main.bucket
