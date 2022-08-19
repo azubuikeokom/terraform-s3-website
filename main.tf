@@ -25,7 +25,7 @@ resource "aws_s3_bucket" "main" {
   bucket = "my-bucket"
   tags = {
     Name = "My Bucket"
-    Environment = "Dev"
+    Environment = "Development"
   }
 
 }
