@@ -46,9 +46,13 @@ data "aws_iam_policy_document" "access_bucket_object" {
     actions   = ["s3:GetObject"]
     resources = [aws_s3_bucket.main.arn]
     effect = "Allow"
+    principals {
+      type = "*"
+      identifiers = ["*"]
+    }
   }
 }
 
 output "bucket-arn" {
-  value = aws_s3_bucket.main.arn
+  value = aws_s3_bucket.main.website_domain
 } 
