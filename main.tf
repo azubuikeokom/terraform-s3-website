@@ -39,7 +39,8 @@ resource "aws_s3_bucket_policy" "allow_access_from_another_account" {
 }
 data "aws_iam_policy_document" "access_bucket_object" {
   statement {
-    actions   = ["s3:GetObject"]
+    sid = "public_access_bucket"
+    actions   = ["s3:*"]
     resources = ["arn:aws:s3:::${aws_s3_bucket.main.bucket}/*"]
     effect = "Allow"
     principals {
