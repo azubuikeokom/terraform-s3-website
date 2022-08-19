@@ -15,7 +15,6 @@ resource "aws_s3_bucket_website_configuration" "main_bucket_web_config" {
 }
 resource "aws_s3_bucket" "main" {
   bucket = "cloudess-bucket"
-  policy = data.aws_iam_policy_document.access_bucket_object.json
   tags = {
     Name = "My Bucket"
     Environment = "Development"
@@ -34,16 +33,14 @@ resource "aws_s3_object" "object" {
   source = "frontend-files/${each.value}"
   etag = filemd5("frontend-files/${each.value}")
 }
-
+resource "aws_s3_bucket_policy" "allow_access_from_another_account" {
+  bucket = aws_s3_bucket.main.id
+  policy = data.aws_iam_policy_document.access_bucket_object.json
+}
 data "aws_iam_policy_document" "access_bucket_object" {
-  # statement {
-  #   actions   = ["s3:ListAllMyBuckets"]
-  #   resources = ["arn:aws:s3:::*"]
-  #   effect = "Allow"
-  # }
   statement {
-    actions   = ["s3:GetObject",]
-    resources = ["arn:aws:s3:::${aws_s3_bucket.main.bucket}/*",]
+    actions   = ["s3:GetObject"]
+    resources = ["arn:aws:s3:::${aws_s3_bucket.main.bucket}/*"]
     effect = "Allow"
     principals {
       type = "*"
@@ -52,6 +49,6 @@ data "aws_iam_policy_document" "access_bucket_object" {
   }
 }
 
-output "bucket-arn" {
+output "bucket-website_domain" {
   value = aws_s3_bucket.main.website_domain
 } 
