@@ -12,14 +12,6 @@ resource "aws_s3_bucket_website_configuration" "main_bucket_web_config" {
     key = "error.html"
   }
 
-  routing_rule {
-    condition {
-      key_prefix_equals = "docs/"
-    }
-    redirect {
-      replace_key_prefix_with = "documents/"
-    }
-  }
 }
 resource "aws_s3_bucket" "main" {
   bucket = "cloudess-bucket"
@@ -40,6 +32,23 @@ resource "aws_s3_object" "object" {
   source = "frontend-files/${each.value}"
   etag = filemd5("frontend-files/${each.value}")
 }
+resource "aws_s3_bucket_policy" "bucket_policy" {
+  bucket = aws_s3_bucket.main.id
+  policy = data.aws_iam_policy_document.access_bucket_object.json
+}
+data "aws_iam_policy_document" "access_bucket_object" {
+  # statement {
+  #   actions   = ["s3:ListAllMyBuckets"]
+  #   resources = ["arn:aws:s3:::*"]
+  #   effect = "Allow"
+  # }
+  statement {
+    actions   = ["s3:GetObject"]
+    resources = [aws_s3_bucket.main.arn]
+    effect = "Allow"
+  }
+}
+
 output "bucket-arn" {
   value = aws_s3_bucket.main.arn
 } 
