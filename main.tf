@@ -44,10 +44,10 @@ data "aws_iam_policy_document" "access_bucket_object" {
   # }
   statement {
     actions   = ["s3:GetObject"]
-    resources = [aws_s3_bucket.main.arn]
+    resources = ["arn:aws:s3:::*",]
     effect = "Allow"
     principals {
-      type = "*"
+      type = "AWS"
       identifiers = ["*"]
     }
   }
