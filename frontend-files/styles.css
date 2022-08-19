@@ -3,6 +3,7 @@ div{
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 2rem;
 }
 span{
     color: rgb(162, 0, 255);
