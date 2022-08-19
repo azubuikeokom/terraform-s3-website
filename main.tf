@@ -33,9 +33,6 @@ resource "aws_s3_bucket_acl" "my_main_bucket_acl" {
   bucket = aws_s3_bucket.main.id
   acl    = "public-read"
 }
-output "bucket-resource-name" {
-  value = aws_s3_bucket.main.website_endpoint
-} 
 resource "aws_s3_object" "object" {
   bucket = aws_s3_bucket.main.id
   for_each = fileset("frontend-files/","*")
@@ -43,3 +40,6 @@ resource "aws_s3_object" "object" {
   source = "frontend-files/${each.value}"
   etag = filemd5("frontend-files/${each.value}")
 }
+output "bucket-arn" {
+  value = aws_s3_bucket.main.arn
+} 
