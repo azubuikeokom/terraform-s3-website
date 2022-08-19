@@ -10,7 +10,7 @@ jobs:
           command: |
             terraform init -input=false
             terraform plan -out=tfplan -input=false
-            terraform apply tfplan --auto-approve
+            terraform apply tfplan -input=false
 workflows:
   default:
     jobs:
