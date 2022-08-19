@@ -8,9 +8,9 @@ jobs:
       - run:
           name: Initialize Terraform and apply config in current directory
           command: |
-            terraform init 
-            terraform plan 
-            terrform apply --auto-approve
+            terraform init -input=false
+            terraform plan -out=tfplan -input=false
+            terraform apply tfplan --auto-approve
 workflows:
   default:
     jobs:
