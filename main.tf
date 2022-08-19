@@ -24,6 +24,7 @@ resource "aws_s3_bucket" "main" {
 resource "aws_s3_bucket_acl" "my_main_bucket_acl" {
   bucket = aws_s3_bucket.main.id
   acl    = "public-read"
+   policy = data.aws_iam_policy_document.access_bucket_object.json
 }
 resource "aws_s3_object" "object" {
   bucket = aws_s3_bucket.main.id
@@ -32,10 +33,7 @@ resource "aws_s3_object" "object" {
   source = "frontend-files/${each.value}"
   etag = filemd5("frontend-files/${each.value}")
 }
-resource "aws_s3_bucket_policy" "bucket_policy" {
-  bucket = aws_s3_bucket.main.id
-  policy = data.aws_iam_policy_document.access_bucket_object.json
-}
+
 data "aws_iam_policy_document" "access_bucket_object" {
   # statement {
   #   actions   = ["s3:ListAllMyBuckets"]
@@ -44,7 +42,7 @@ data "aws_iam_policy_document" "access_bucket_object" {
   # }
   statement {
     actions   = ["s3:GetObject",]
-    resources = ["arn:aws:s3:::*",]
+    resources = ["arn:aws:s3:::${aws_s3_bucket.main.bucket}/*",]
     effect = "Allow"
     principals {
       type = "*"
