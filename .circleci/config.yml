@@ -1,0 +1,16 @@
+version: 2.1
+jobs:
+  deploy-to-s3-bucket:
+    docker:
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+    steps:
+      - checkout
+      - run:
+          name: Initialize Terraform and apply config in current directory
+          command: |
+            terraform init \
+            terrform apply --auto-approve
+workflows:
+  default:
+    jobs:
+      - deploy-to-s3-bucket
