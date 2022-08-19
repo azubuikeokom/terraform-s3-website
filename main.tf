@@ -20,10 +20,23 @@ resource "aws_s3_bucket_website_configuration" "main_bucket_web_config" {
 }
 resource "aws_s3_bucket" "main" {
   bucket = "my-bucket"
-
+  tags = {
+    Name = "My Bucket"
+    Environment = "Dev"
+  }
 
 }
 resource "aws_s3_bucket_acl" "my_main_bucket_acl" {
   bucket = aws_s3_bucket.main.id
   acl    = "public-read"
+}
+output "bucket-resource-name" {
+  value = aws_s3_bucket.main.website_endpoint
+} 
+resource "aws_s3_object" "object" {
+  bucket = aws_s3_bucket.main.id
+  for_each = fileset("frontend-files/","*")
+  key    = each.value
+  source = "frontend-files/${each.value}"
+  etag = filemd5("frontend-files/${each.value}")
 }
