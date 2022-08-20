@@ -56,7 +56,7 @@ output "bucket-website_domain" {
 #cloudfront configuration
 
 locals {
-  s3_origin_id = "cloudess"
+  s3_origin_id = "cloudesse"
 }
 resource "aws_cloudfront_origin_access_identity" "my_cloudfront_id" {
   comment = "Origin Access Identity for Serverless Static Website"
