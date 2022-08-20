@@ -49,9 +49,6 @@ data "aws_iam_policy_document" "access_bucket_object" {
   }
 }
 
-output "bucket-website_domain" {
-  value = aws_s3_bucket.main.bucket_regional_domain_name
-}
 
 #cloudfront configuration
 
@@ -66,9 +63,6 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     domain_name = aws_s3_bucket.main.bucket_regional_domain_name
     origin_id   = local.s3_origin_id
 
-    # s3_origin_config {
-    #   origin_access_identity = aws_cloudfront_origin_access_identity.my_cloudfront_id
-    # }
   }
 
   enabled             = true
@@ -76,13 +70,6 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   comment             = "Cloudfront configuration"
   default_root_object = "index.html"
 
-  # logging_config {
-  #   include_cookies = false
-  #   bucket          = "mylogs.s3.amazonaws.com"
-  #   prefix          = "myprefix"
-  # }
-
-  #aliases = ["mysite.example.com", "yoursite.example.com"]
 
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
@@ -164,4 +151,10 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   viewer_certificate {
     cloudfront_default_certificate = true
   }
+}
+output "bucket-website_domain" {
+  value = aws_s3_bucket.main.website_endpoint
+}
+output "cloudfront_distribution" {
+  value = aws_cloudfront_distribution.s3_distribution.domain_name
 }

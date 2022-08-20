@@ -1,4 +1,9 @@
 version: 2.1
+# commands:
+#   revert-deployment:
+#     name: Revert all previous deployments
+#     command:
+
 jobs:
   deploy-to-s3-bucket:
     docker:
