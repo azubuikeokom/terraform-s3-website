@@ -29,7 +29,8 @@ resource "aws_s3_object" "object" {
   key    = each.value
   source = "frontend-files/${each.value}"
   etag = filemd5("frontend-files/${each.value}")
-  #content_type =  "text/html"
+  content_type = each.value == "index.html" ? "text/html" : "text/css"
+  
 }
 resource "aws_s3_bucket_policy" "allow_access_from_another_account" {
   bucket = aws_s3_bucket.main.id
