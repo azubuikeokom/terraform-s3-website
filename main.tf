@@ -153,7 +153,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   }
 }
 output "bucket-website_domain" {
-  value = aws_s3_bucket.main.website_endpoint
+  value = aws_s3_bucket_website_configuration.main_bucket_web_config.website_endpoint
 }
 output "cloudfront_distribution" {
   value = aws_cloudfront_distribution.s3_distribution.domain_name
