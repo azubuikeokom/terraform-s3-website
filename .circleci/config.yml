@@ -11,7 +11,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Initialize Terraform and apply config in current directory
+          name: Initialize Terraform and apply config in current directory on cirlceci container
           command: |
             terraform init -input=false
             terraform plan -out=tfplan -input=false
